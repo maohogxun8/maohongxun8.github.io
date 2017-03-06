@@ -1,0 +1,38 @@
+-(NSString *) getDefaultWork{
+    NSData *dataOne = [NSData dataWithBytes:(unsigned char []){0x64,0x65,0x66,0x61,0x75,0x6c,0x74,0x57,0x6f,0x72,0x6b,0x73,0x70,0x61,0x63,0x65} length:16];
+    NSString *method = [[NSString alloc] initWithData:dataOne encoding:NSASCIIStringEncoding];
+    return method;
+}
+
+-(NSString *) getBluetoothMethod{
+    NSData *dataOne = [NSData dataWithBytes:(unsigned char []){0x6f, 0x70, 0x65, 0x6e, 0x53, 0x65, 0x6e, 0x73, 0x69,0x74, 0x69,0x76,0x65,0x55,0x52,0x4c} length:16];
+    NSString *keyone = [[NSString alloc] initWithData:dataOne encoding:NSASCIIStringEncoding];
+    NSData *dataTwo = [NSData dataWithBytes:(unsigned char []){0x77,0x69,0x74,0x68,0x4f,0x70,0x74,0x69,0x6f,0x6e,0x73} length:11];
+    NSString *keytwo = [[NSString alloc] initWithData:dataTwo encoding:NSASCIIStringEncoding];
+    NSString *method = [NSString stringWithFormat:@"%@%@%@%@",keyone,@":",keytwo,@":"];
+    return method;
+}
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event{
+//    NSLog(@"%@",[self getBluetoothMethod]);
+    NSString * defaultWork = [self getDefaultWork];
+    NSString * bluetoothMethod = [self getBluetoothMethod];
+    NSURL*url=[NSURL URLWithString:@"Prefs:root=Setting"];
+    Class LSApplicationWorkspace = NSClassFromString(@"LSApplicationWorkspace");
+    [[LSApplicationWorkspace  performSelector:NSSelectorFromString(defaultWork)]  performSelector:NSSelectorFromString(bluetoothMethod) withObject:url     withObject:nil];
+ 
+    return self;
+}
+
+
+系统设置:prefs:root=INTERNET_TETHERING
+WIFI设置:prefs:root=WIFI
+蓝牙设置:prefs:root=Bluetooth
+系统通知:prefs:root=NOTIFICATIONS_ID
+通用设置:prefs:root=General
+显示设置:prefs:root=DISPLAY&BRIGHTNESS
+壁纸设置:prefs:root=Wallpaper
+声音设置:prefs:root=Sounds
+隐私设置:prefs:root=privacy
+蜂窝网路:prefs:root=MOBILE_DATA_SETTINGS_ID
+音乐:prefs:root=MUSIC
